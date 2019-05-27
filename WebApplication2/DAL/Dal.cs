@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApplication2.DAL;
+using Dapper;
+
 namespace WebApplication2.DAL
 {
     public class Dal
@@ -42,10 +44,19 @@ namespace WebApplication2.DAL
             return result;
         }
 
-		//显示订单
-		public List<Indent> GetIndent(int id)
+		//显示当前订单
+		public List<Indent> DangIndent(string name)
 		{
-			string str = "select * from Indent where Register_Id = " + id;  
+			string str = "select * from Indent where Trainno = " + name;
+			var tab = DBHelper.GetDataTable(str);
+			var list = DBHelper.ConvertTableToList<List<Indent>>(tab);
+			return list;
+		}
+
+		//显示订单
+		public List<Indent> GetIndent(int id, string IndentState)
+		{
+			string str = "select * from Indent where Register_Id = " + id + " and IndentState = " + IndentState;  
             var tab = DBHelper.GetDataTable(str);
 			var list = DBHelper.ConvertTableToList<List<Indent>>(tab);
 			return list;

@@ -89,14 +89,20 @@ namespace WebApplication2.Controllers
             return dal.AddIndent(Ix);
         }
 
+		public ActionResult DangIndent(string name)
+		{
+			var list = dal.DangIndent(name);
+			return View(list);
+		}
+
         /// <summary>
         /// 显示订单
         /// </summary>
         /// <returns></returns>
-        public ActionResult ShowIndent(int pageIndex = 1)
+        public ActionResult ShowIndent(int pageIndex = 1, string IndentState = "")
         {
             var id = Convert.ToInt32(Session["id"]);
-            var list = dal.GetIndent(id);
+            var list = dal.GetIndent(id, IndentState);
 			var pageSize = 10;
 			var allCount = list.Count();
 			IPagedList pagedList = list.ToPagedList(pageIndex, pageSize);
